@@ -3,7 +3,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/admin//includes/html.inc.php';
 
 if(isset($_POST['zan']))
 {
-	$num = htmlout($joke['zan']);
+	$num = $_POST['zan1'];
 	$num += 1;
 	try
 	{

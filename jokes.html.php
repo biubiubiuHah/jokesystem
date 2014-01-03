@@ -24,6 +24,7 @@
       <td>By:<a href="mailto:<?php htmlout($joke['email']); ?>"><?php htmlout($joke['name']); ?></a></td>
       <td><form action ="?" method = 'post'>
         <input type = "hidden" name = "id" value = "<?php htmlout($joke['id']); ?>">
+        <input type = "hidden" name = "zan1" value = "<?php htmlout($joke['zan'])?>">
         <input type = "submit" name = "zan" value = "赞" >+<?php htmlout($joke['zan'])?></form></td>
     </tr>
   <?php endforeach; ?>
