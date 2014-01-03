@@ -197,7 +197,7 @@
  	}
  	catch(PDOException $e)
  	{
- 		$output = 'error updating submitted author'.$e->getMessage;
+ 		$output = 'The email had been already used.  Please input another email!';
  	 	include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/output.html.php';
  	 	exit();
  	}

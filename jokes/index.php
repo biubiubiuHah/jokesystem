@@ -8,9 +8,9 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/access.inc.php';
     exit();
  }
 
- if(!userHasRole('Account Administrator'))//用户登陆但缺乏所需的角色，显示一条相应的错误信息
+ if(!userHasRole('Content Editor'))//用户登陆但缺乏所需的角色，显示一条相应的错误信息
  {
-    $output = 'Only Account Administrator may access this page.';
+    $output = 'Only Content Editor may access this page.';
     include $_SERVER['DOCUMENT_ROOT'].'/admin/accessdentied.html.php';
     exit();
  }

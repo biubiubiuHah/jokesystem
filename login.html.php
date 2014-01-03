@@ -24,6 +24,6 @@
      		<input type = "submit" value = "Log in">
      	</div>
      </form>
-     <p><a href="/admin/">Return to JMS home</a></p>
+     <p><a href="/admin/jokeback/">Return to JMS home</a></p>
   </body>
 </html>

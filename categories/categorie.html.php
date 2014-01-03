@@ -22,6 +22,6 @@
   		  </li>
   		<?php endforeach;?>
   	</ul>
-    <p><a href = "..">Return to JMS home</a></p>
+    <p><a href = "../jokeback/">Return to JMS home</a></p>
   </body>
  </html>

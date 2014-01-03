@@ -36,7 +36,7 @@
         				<input type = "hidden" name = "action" value = "search"><!--把action传进数组$_GET[]里，值是search-->
         				<input type = "submit" value = "search"></div>
         		</form>
-        		<p><a href = ".."><input type = "submit" value = "Return to JMS home"></a><p>
+        		<p><a href = "../jokeback/"><input type = "submit" value = "Return to JMS home"></a><p>
                     <?php include '../logout.inc.html.php'; ?>
         	</body>
  </html>

@@ -29,7 +29,7 @@
     <?php endif; ?>
     <?php if(!isset($jokes)):  echo "there is no such joke in the database"; ?><?php endif ;?>
     <p><a href="?">New Search</a></p>
-    <p><a href="..">Return to JMS home</a></p>
+    <p><a href="../jokeback/">Return to JMS home</a></p>
     <?php include '../logout.inc.html.php'; ?>
     </body>
 </html>
