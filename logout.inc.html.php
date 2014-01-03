@@ -5,4 +5,4 @@
 		<input type = "hidden" name = "goto" value= "/admin/">
 		<input type = "submit" value = "Log out">
 	</div>
-</fotm>
+</form>
