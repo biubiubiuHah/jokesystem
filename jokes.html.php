@@ -17,6 +17,7 @@
   <table width="70%" border="1" align="center" cellpadding="0" cellspacing="2">
     <tr>
       <th colspan="2"><strong>Joke ~welcome to you to come here!</strong></th>
+      <td><a href="../admin/editjoke/"><input type = "submit" name = "add" value = "写笑话"></td>
     </tr>
     <?php foreach($jokes as $joke): ?>
     <tr>
