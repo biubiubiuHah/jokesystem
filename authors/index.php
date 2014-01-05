@@ -1,22 +1,24 @@
  <?php
  include_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/magicquotes.inc.php';
-
  require_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/access.inc.php';
- if(!userIsLoggedIn())//用户未登陆，显示登陆表单
+ 
+ //用户未登陆，显示登陆表单
+ if(!userIsLoggedIn())
  {
     include '../login.html.php';
     exit();
  }
 
- if(!userHasRole('Account Administrator'))//用户登陆但缺乏所需的角色，显示一条相应的错误信息
+ //用户登陆但缺乏所需的角色,即没有分配用户权限，显示一条相应的错误信息
+ if(!userHasRole('Account Administrator'))
  {
     $output = 'Only Account Administrator may access this page.';
     include $_SERVER['DOCUMENT_ROOT'].'/admin/accessdentied.html.php';
     exit();
  }
 
-
- if(isset($_GET['add']))//点击ADD new author 后的执行代码
+ //点击ADD new author 后的执行代码
+ if(isset($_GET['add']))
  {
     include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/db.inc.php';
  	$pageTitle = 'New Author';
@@ -44,7 +46,9 @@
  	include 'form.html.php';
  	exit();
  }
- if(isset($_GET['addform']))//点击 Add author 后，即提交表单后执行插入author
+
+  //点击 Add author 后，即提交表单后执行插入author
+ if(isset($_GET['addform']))
  {
  	include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/db.inc.php';
  	try
@@ -64,8 +68,9 @@
  	}
     $authorid = $pdo->lastInsertId();
     if($_POST['password'] != '')
-    {
-        $password = md5($_POST['password'].'jokedb');//对密码进行加密处理
+    { 
+        //对密码进行加密处理
+        $password = md5($_POST['password'].'jokedb');
         try
         {
             $sql = 'UPDATE author SET 
@@ -82,6 +87,8 @@
             include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/output.html.php';
             exit();
         }
+
+        //写入管理员的权限，有多个权限
         if(isset($_POST['roles']))
         {
             foreach ($_POST['roles'] as $role) 
@@ -112,8 +119,8 @@
 
 
 
-
- if (isset($_POST['action']) and $_POST['action'] == 'Edit') //点击Edit 后执行的代码，对author 进行修改
+ //点击Edit 后执行的代码，对author 进行修改
+ if (isset($_POST['action']) and $_POST['action'] == 'Edit') 
  {
  	include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/db.inc.php';
 
@@ -130,6 +137,7 @@
  	 	include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/output.html.php';
  	 	exit();
  	}
+
  	$row = $s->fetch();
     
     $pageTitle = 'Edit Author';
@@ -138,7 +146,8 @@
     $email = $row['email'];
     $id = $row['id'];
     $button = 'Update author';
-    //得到作者的所属用户权限
+
+    //得到管理员的所属用户权限
     try
     {
         $sql = 'SELECT roleid FROM authorrole WHERE authorid = :id';
@@ -153,6 +162,7 @@
         exit();
     }
     $selectedRoles = array();
+    //把管理员的用户权限放入$selectedRoles[]中
     foreach($s as $row)
     {
         $selectedRoles[] = $row['roleid'];
@@ -180,7 +190,9 @@
     include 'form.html.php';
     exit();
  }
- if(isset($_GET['editform']))//点击 Update author 后，即提交表单后执行修改author
+
+ //点击 Update author 后，即提交表单后执行修改author
+ if(isset($_GET['editform']))
  {
  	include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/db.inc.php';
  	try
@@ -201,7 +213,9 @@
  	 	include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/output.html.php';
  	 	exit();
  	}
-    if($_POST['password']!= '') //更新密码
+
+    //更新密码
+    if($_POST['password']!= '') 
     {
         $password = md5($_POST['password'].'jokedb');
         try
@@ -219,7 +233,9 @@
             exit();
         }
     }
-    try//删除作者原先的用户权限信息
+
+    //删除作者原先的用户权限信息
+    try
     {
         $sql = 'DELETE FROM authorrole WHERE authorid = :id';
         $s = $pdo -> prepare($sql);
@@ -233,7 +249,8 @@
         exit();
     }
 
-    if(isset($_POST['roles'])) //录入作者的用户权限信息
+    //写入作者的用户权限信息
+    if(isset($_POST['roles'])) 
     {
         foreach($_POST['roles'] as $role)
         {
@@ -258,8 +275,9 @@
  	header('Location: .');
  	exit();
  }
+
+ //点击Delete后执行的操作，即删除author，并且直接回到Manage author 的界面
 if(isset($_POST['action']) and $_POST['action'] == 'Delete')
-//点击Delete后执行的操作，即删除author，并且直接回到Manage author 的界面
  {
      include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/db.inc.php';
 
@@ -277,18 +295,15 @@ if(isset($_POST['action']) and $_POST['action'] == 'Delete')
         include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/output.html.php';
         exit();
      }
-     //GET jokes belonging to author 
+
+     //得到属于作者的笑话
      try
      {
         $sql = 'SELECT id FROM joke WHERE authorid = :id';
         $s = $pdo->prepare($sql);
         $s->bindValue(':id',$_POST['id']);
-        $s->execute();/*为甚么要这样？直接用author = $_POST['id'] 进行查询不就好了？
-        原因：直接用author = $_POST['id'] 的话，那么$_POST['id']的内容就完全由用户控制，这会导致
-        SQL注入式攻击（用户输入一些不好的SQL代码，脚本会毫无保留的提交给MySQL服务器）
-        措施：魔术引号功能（检测“危险”字符，假如反斜杠），预防SQL注入式攻击。
-        导致的问题：只在某些情况下起作用，（不同站点字符编码及数据库服务器情况不同）并且当提交的不是创建一条SQL查询时，反斜杠就成了麻烦
-        措施：检测魔术引号是否在Web服务器上是否可用，可用就除掉它对提交的值所作出的修改（php 5.4以上已经关闭废弃掉魔术引号功能）*/
+        $s->execute();
+        
      }
      catch(PDOExecption $e)
      {
@@ -297,14 +312,14 @@ if(isset($_POST['action']) and $_POST['action'] == 'Delete')
         exit();
      }
 
-     $result = $s->fetchALL();//新语句：使用：
+     //？？？？？？
+     $result = $s->fetchALL();
 
-     try//删除笑话目录中的笑话与分类的对应关系
+     //删除笑话目录中的笑话与分类的对应关系
+     try
      {
-        $sql = 'DELETE FROM jokecategory WHERE jokeid = :id';//?????????
+        $sql = 'DELETE FROM jokecategory WHERE jokeid = :id';
         $s = $pdo->prepare($sql);
-
-        //foreach joke
         foreach ($result as $row) 
         {
             $jokeID = $row['id'];
@@ -320,8 +335,8 @@ if(isset($_POST['action']) and $_POST['action'] == 'Delete')
         exit();
      }
 
-
-     try//删掉属于作者的joke
+     //删掉属于作者的joke
+     try
      {
         $sql = 'DELETE FROM joke WHERE authorid = :id';
         $s = $pdo->prepare($sql);
@@ -335,8 +350,8 @@ if(isset($_POST['action']) and $_POST['action'] == 'Delete')
         exit();
      }
 
-
-     try//删掉作者
+     //删掉作者
+     try
      {
         $sql = 'DELETE FROM author WHERE id = :id';
         $s = $pdo->prepare($sql);
@@ -355,7 +370,7 @@ if(isset($_POST['action']) and $_POST['action'] == 'Delete')
 
  }
 
-include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/db.inc.php'; //Manage author 的界面
+include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/db.inc.php'; 
  try
  {
     $result = $pdo->query('SELECT id,name FROM author');
@@ -370,6 +385,7 @@ include $_SERVER['DOCUMENT_ROOT'].'/admin/includes/db.inc.php'; //Manage author 
  {
     $authors[] = array('id' => $row['id'],'name' => $row['name']);
  }
+ //显示author的界面
  include 'authors.html.php';
  
 

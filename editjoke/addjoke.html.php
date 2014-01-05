@@ -17,7 +17,7 @@
   			<textarea id ="joketext" name = "joketext" rows = "4" cols = “80”>
   			</textarea>
   		</div>
-  		<div><input type = "submit" name = "action" value = "add">  <?php include 'logout.inc.html.php'; ?></div>
+  		<div><input type = "submit" name = "action" value = "add">  <?php include '../logout.inc.html.php'; ?></div>
 
   	</form>
   </body>

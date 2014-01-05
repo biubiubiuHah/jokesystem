@@ -21,7 +21,8 @@
 		<fieldset>
 			<legend>Roles:</legend>
 			<?php for($i = 0; $i < count($roles); $i++): ?>
-			<div><!--表单，显示作者用户权限信息，当对作者进行编辑时，显示作者的用户权限-->
+			<div>
+				<!--表单，显示作者用户权限信息，当对作者进行编辑时，显示作者的用户权限-->
 				<label for = "role<?php echo $i; ?>">
 					<input type = "checkbox" name = "roles[]" id = "role<?php echo $i; ?>" 
 					value = "<?php htmlout($roles[$i]['id']); ?>"

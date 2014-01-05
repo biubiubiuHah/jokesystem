@@ -9,10 +9,12 @@
   <body>
   	<h1>Log In</h1>
   	<p>Please log in to view page that you requested.</p>
-  	<?php if(isset($loginError)): ?><!--如果检测到全局变量loginError 即输出错误信息-->
+    <!--如果检测到全局变量loginError 即输出错误信息-->
+  	<?php if(isset($loginError)): ?>
      	<p><?php htmlout($loginError); ?></p>
      <?php endif; ?>
-     <form action = "" method = "post"><!--接受一个action = login，还有email= ? password =  ?-->
+     <!--接受一个action = login，还有email= ? password =  ?-->
+     <form action = "" method = "post">
      	<div>
      		<label for = "email">Email: <input type = "text", name = "email" id = "email"></label>
      	</div>

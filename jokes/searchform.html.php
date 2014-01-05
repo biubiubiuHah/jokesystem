@@ -7,7 +7,8 @@
   </head>
      <body>
         <h1>Manage Jokes</h1>
-        	<p><a href = "?add">Add new joke</a></p><!--单击Add new joke，传入add到$_POST[]数组里-->
+        <!--单击Add new joke，传入add到$_POST[]数组里-->
+        	<p><a href = "?add">Add new joke</a></p>
         	<form action = "" method = "get">
         		<p>View jokes satisfying the following criteria:</p>
         		<div>
@@ -30,10 +31,12 @@
         			</div>
         			<div>
         				<label for = "text">Containing text:</label>
-        				<input type = "text" name = "text" id = "text"><!--把text传进$_GET[]数组里,值也是text-->
+        				<input type = "text" name = "text" id = "text">
+                        <!--把text传进$_GET[]数组里,值也是text-->
         			</div>
         			<div>
-        				<input type = "hidden" name = "action" value = "search"><!--把action传进数组$_GET[]里，值是search-->
+        				<input type = "hidden" name = "action" value = "search">
+                        <!--把action传进数组$_GET[]里，值是search-->
         				<input type = "submit" value = "search"></div>
         		</form>
         		<p><a href = "../jokeback/"><input type = "submit" value = "Return to JMS home"></a><p>

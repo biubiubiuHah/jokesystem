@@ -1,10 +1,13 @@
 <?php include_once $_SERVER['DOCUMENT_ROOT'].'/admin/includes/db.inc.php';
 include_once $_SERVER['DOCUMENT_ROOT'].'/admin//includes/html.inc.php';
 
+//检测是否点击了‘赞’
 if(isset($_POST['zan']))
 {
 	$num = $_POST['zan1'];
 	$num += 1;
+
+	//更新点‘赞’所对应的笑话的‘zan’列的数值
 	try
 	{
 		$sql = 'UPDATE joke SET zan = :zan WHERE id = :id';
@@ -39,7 +42,5 @@ foreach($result as $row)
 	$jokes[] = array('id' => $row['id'],'text' => $row['joketext'],'name' => $row['name'],
 		'email' => $row['email'],'zan' => $row['zan']);
 }
-
-
 
 include 'jokes.html.php';

@@ -20,17 +20,21 @@
   				<?php htmlout($text); ?>
   			</textarea>
   		</div>
-  		<div><!--传递author = <?php htmlout($author['id']); ?> -->
+  		<div>
+        <!--传递author = <?php htmlout($author['id']); ?> -->
   			<label for = "author">Author:</label>
   			<select name = "author" id = "author">
   				<option value = "">Select one</option>
   				<?php foreach ($authors as $author): ?>
-  					<option value = "<?php htmlout($author['id']); ?>"<?php
-  					if($author['id'] == $authorid)
-  					{
-  						echo ' selected';
-  					}//???????????????
-  					?>><?php htmlout($author['name']); ?></option>
+  					<option value = "<?php htmlout($author['id']); ?>"
+              <?php 
+              //选择
+              if($author['id'] == $authorid)
+          					{
+          						echo ' selected';
+          					}?>>
+              <?php htmlout($author['name']); ?>
+            </option>
   				<?php endforeach; ?>
   			</select>
   		</div>
@@ -44,7 +48,8 @@
   					if($category['selected'])
   					{
   						echo ' checked';
-  					}?>><?php htmlout($category['name']); ?><!--可以选择多个分类，因此name = categories[],即用一个数组来存放value值-->
+  					}?>><?php htmlout($category['name']); ?>
+            <!--可以选择多个分类，因此name = categories[],即用一个数组来存放value值-->
   				</label>
   			</div>
   		    <?php endforeach; ?>
